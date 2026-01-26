@@ -64,7 +64,30 @@ body {
 .ButtonText a {
   color: white;
   text-decoration: none;
-  margin-left: 20px;
+  margin: 0 20px;
+}
+/* Tablet */
+@media (max-width: 768px) {
+  .ButtonText {
+    font-size: 16px; /* slightly smaller */
+    flex-wrap: wrap; /* allow wrapping if needed */
+    justify-content: center;
+  }
+  .ButtonText a {
+    margin: 5px 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .ButtonText {
+    font-size: 14px; /* smaller for phones */
+    flex-direction: column; /* stack vertically */
+    align-items: center;
+  }
+  .ButtonText a {
+    margin: 5px 0;
+  }
 }
 
 .ButtonText a:hover {
