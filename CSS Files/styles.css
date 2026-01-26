@@ -1,16 +1,19 @@
 .Header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* center the buttons */
   align-items: center;
   padding: 10px 5vw;
   position: fixed;
   top: 0;
   width: 100%;
+  background: rgba(0, 0, 0, 0.7); /* optional background */
   z-index: 9999;
 }
+
 .LogoTopRight {
-  position: static; /* let flexbox handle placement */
-  height: 50px; /* scale logo */
+  order: 2;
+  margin-left: auto; /* pushes logo to the right */
+  height: 80px; /* scale logo */
 }
 
 /* Page structure */
@@ -38,7 +41,10 @@ body {
 }
 
 .ButtonContainer {
-  margin: 0; /* remove vw margin */
+  flex: 1; /* take available space */
+  display: flex;
+  justify-content: center; /* center the links */
+  order: 1;
 }
 
 .Button {
@@ -70,7 +76,7 @@ body {
   font-size: clamp(24px, 8vw, 80px);
   color: white;
   font-weight: normal;
-  margin-left: 10px; /* spacing instead of absolute positioning */
+  margin: 0 0 10px 25px;
   text-align: left;
   text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.6);
 }
@@ -93,11 +99,11 @@ body {
   font-size: clamp(22px, 6vw, 40px);
   color: cyan;
   font-weight: normal;
- margin-left: 10px; /* spacing instead of absolute positioning */
+  margin: 0 0 10px 25px;
   text-align: left;
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
 }
-/Tablets*/
+/*Tablets*/
 @media (max-width: 768px) {
   .Page1SubTitle {
     font-size: 30px; /* tablets */
@@ -111,18 +117,17 @@ body {
     text-align: center;
   }
 }
-}
+
 .Page1Copy {
   position: relative;
   z-index: 2;
-  margin: 40px 0 40px 20vw; /* add 20vw left margin */
+  margin-left: 20px; /* add 20vw left margin */
   font-family: "Corbel Light", "Corbel", Arial, sans-serif;
   font-size: 25px;
-  color: rgb(226, 228, 228);
+  color: white;
   font-weight: normal;
   text-align: justify;
   max-width: 40ch;
-  text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
 }
 @media (max-width: 768px) {
   .Page1Copy {
@@ -231,7 +236,7 @@ body {
 .HeroSection .MainContent {
   position: absolute;
   top: 30vh;
-  left: 0;
+  left: 25vw;
   right: 0;
 }
 
@@ -240,7 +245,7 @@ body {
   position: absolute;
   inset: 0;
   background-image: url("../images/Background1.png");
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
