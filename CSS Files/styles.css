@@ -1,3 +1,18 @@
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5vw;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.LogoTopRight {
+  position: static; /* let flexbox handle placement */
+  height: 50px; /* scale logo */
+}
+
 /* Page structure */
 html,
 body {
@@ -22,27 +37,13 @@ body {
   justify-content: flex-start;
 }
 
-.LogoTopRight {
-  position: absolute;
-  top: 10px;
-  right: 0;
+.ButtonContainer {
+  margin: 0; /* remove vw margin */
 }
 
-.ButtonContainer {
-  position: fixed; /* pins it to the viewport */
-  top: 5px;
-  margin: 0 0 0 20vw;
-}
 .Button {
   position: relative; /* makes text position relative to this box */
   width: 100px; /* button size */
-}
-
-.ButtonContainer {
-  position: fixed;
-  top: 5px;
-  margin: 0 0 0 20vw;
-  z-index: 9999;
 }
 
 .ButtonText {
@@ -66,10 +67,10 @@ body {
 
 .Page1Title {
   font-family: "Corbel Light", "Corbel", Arial, sans-serif;
-  font-size: 80px;
+  font-size: clamp(24px, 8vw, 80px);
   color: white;
   font-weight: normal;
-  margin: 0 0 10px 20vw; /* spacing instead of absolute positioning */
+  margin-left: 10px; /* spacing instead of absolute positioning */
   text-align: left;
   text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.6);
 }
@@ -82,30 +83,34 @@ body {
 
 @media (max-width: 480px) {
   .Page1Title {
-    font-size: 28px; /* phones */
+    margin-left: 5vw;
+    text-align: center;
   }
 }
 
 .Page1SubTitle {
   font-family: "Calibri", Arial, sans-serif;
-  font-size: 40px;
+  font-size: clamp(22px, 6vw, 40px);
   color: cyan;
   font-weight: normal;
-  margin: 0 0 20px 20vw; /* spacing below title */
+ margin-left: 10px; /* spacing instead of absolute positioning */
   text-align: left;
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
 }
-
+/Tablets*/
 @media (max-width: 768px) {
   .Page1SubTitle {
     font-size: 30px; /* tablets */
   }
 }
 
+/*Mobile Phones */
 @media (max-width: 480px) {
   .Page1SubTitle {
-    font-size: 20px; /* phones */
+    margin-left: 5vw;
+    text-align: center;
   }
+}
 }
 .Page1Copy {
   position: relative;
@@ -235,8 +240,9 @@ body {
   position: absolute;
   inset: 0;
   background-image: url("../images/Background1.png");
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
   opacity: 0;
   animation: bgFadeIn 1.5s ease-out forwards;
   z-index: -1; /* background behind content */
