@@ -74,6 +74,18 @@ body {
   text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.6);
 }
 
+@media (max-width: 768px) {
+  .Page1Title {
+    font-size: 40px; /* tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .Page1Title {
+    font-size: 28px; /* phones */
+  }
+}
+
 .Page1SubTitle {
   font-family: "Calibri", Arial, sans-serif;
   font-size: 40px;
@@ -84,6 +96,17 @@ body {
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
 }
 
+@media (max-width: 768px) {
+  .Page1SubTitle {
+    font-size: 30px; /* tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .Page1SubTitle {
+    font-size: 20px; /* phones */
+  }
+}
 .Page1Copy {
   position: relative;
   z-index: 2;
@@ -95,6 +118,17 @@ body {
   text-align: justify;
   max-width: 40ch;
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
+}
+@media (max-width: 768px) {
+  .Page1Copy {
+    font-size: 20px; /* tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .Page1Copy {
+    font-size: 15px; /* phones */
+  }
 }
 
 .CyanText {
