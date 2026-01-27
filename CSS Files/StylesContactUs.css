@@ -1,0 +1,344 @@
+.Header {
+  display: flex;
+  justify-content: center; /* center the buttons */
+  align-items: center;
+  padding: 10px 5vw;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7); /* optional background */
+  z-index: 9999;
+}
+
+.LogoTopRight {
+  order: 2;
+  margin: 0; /* pushes logo to the right */
+  height: 80px; /* scale logo */
+}
+
+/* Page structure */
+html,
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+body {
+  position: relative;
+  margin: 0;
+
+  background-color: black; /* fallback */
+}
+
+/* Main content grows to fill space */
+/* Stop vertical centering */
+.MainContent {
+  display: flex;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.ButtonContainer {
+  flex: 1; /* take available space */
+  display: flex;
+  justify-content: center; /* center the links */
+  order: 1;
+}
+
+.Button {
+  position: relative; /* makes text position relative to this box */
+  width: 100px; /* button size */
+}
+
+.ButtonText {
+  display: flex;
+  font-family: "Calibri", Arial, sans-serif;
+  font-size: 20px;
+  color: white;
+  font-weight: normal;
+  text-shadow: 1px 1px 3px black;
+}
+
+.ButtonText a {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+}
+/* Tablet */
+@media (max-width: 768px) {
+  .ButtonText {
+    font-size: 16px; /* slightly smaller */
+    flex-wrap: wrap; /* allow wrapping if needed */
+    justify-content: center;
+  }
+  .ButtonText a {
+    margin: 5px 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .ButtonText {
+    font-size: 14px; /* smaller for phones */
+    flex-direction: column; /* stack vertically */
+    align-items: center;
+  }
+  .ButtonText a {
+    margin: 5px 0;
+  }
+}
+
+.ButtonText a:hover {
+  color: cyan;
+}
+
+.Page1Title {
+  font-family: "Corbel Light", "Corbel", Arial, sans-serif;
+  font-size: clamp(24px, 8vw, 80px);
+  color: white;
+  font-weight: normal;
+  margin: 0 0 10px 0;
+  text-align: left;
+  text-shadow: 6px 6px 6px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .Page1Title {
+    font-size: 40px; /* tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .Page1Title {
+    margin-left: 5vw;
+    text-align: center;
+  }
+}
+
+.Page1SubTitle {
+  font-family: "Calibri", Arial, sans-serif;
+  font-size: clamp(22px, 6vw, 40px);
+  color: cyan;
+  font-weight: normal;
+  margin: 0 0 10px 0;
+  text-align: left;
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 1);
+}
+/*Tablets*/
+@media (max-width: 768px) {
+  .Page1SubTitle {
+    font-size: 30px; /* tablets */
+  }
+}
+
+/*Mobile Phones */
+@media (max-width: 480px) {
+  .Page1SubTitle {
+    margin-left: 5vw;
+    text-align: center;
+  }
+}
+
+.Page1Copy {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 10px 0; /* add 20vw left margin */
+  font-family: "Corbel Light", "Corbel", Arial, sans-serif;
+  font-size: 25px;
+  color: white;
+  font-weight: normal;
+  text-align: justify;
+  max-width: 40ch;
+}
+@media (max-width: 768px) {
+  .Page1Copy {
+    font-size: 20px; /* tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .Page1Copy {
+    font-size: 15px; /* phones */
+  }
+}
+
+.CyanText {
+  color: cyan;
+  text-shadow: 5px 5px 6px rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.FooterContainer {
+  left: 0;
+  width: 100%;
+  background-image: url("../images/FooterBackground.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  font-size: 30px;
+  line-height: 1.1;
+  color: white;
+  padding: 10px;
+}
+
+.FooterContainer h2 {
+  margin: 0;
+  font-size: 24px;
+  text-align: center;
+}
+
+.FooterContainer p {
+  font-size: 25px;
+  text-align: left;
+  margin-left: 10vw;
+}
+
+.fly-in {
+  opacity: 0;
+  transform: translateY(50px); /* start below */
+  animation: flyIn 1s ease-out forwards;
+}
+
+@keyframes flyIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.Page1Title.fly-in {
+  animation-delay: 0.6s;
+}
+
+.Page1SubTitle.fly-in {
+  animation-delay: 0.8s;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.Page1Copy.fade-in {
+  animation-delay: 1s; /* adjust to taste */
+}
+
+.bg-fade {
+  opacity: 0;
+  animation: bgFadeIn 1.5s ease-out forwards;
+}
+
+@keyframes bgFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.HeroSection {
+  position: relative;
+  height: 100vh;
+  overflow: visible; /* allow content to extend below background */
+}
+
+.HeroSection .MainContent {
+  position: absolute;
+  top: 15vh;
+  left: 25vw;
+  right: 0;
+}
+
+.HeroSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/BackgroundContactUs.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: bgFadeIn 1.5s ease-out forwards;
+  z-index: -1; /* background behind content */
+}
+
+@keyframes bgFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 1s ease-out,
+    transform 1s ease-out;
+}
+
+.scroll-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Contact form wrapper */
+.contact-form {
+  background: rgba(255, 255, 255, 0.1); /* semi-transparent card */
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Labels */
+.contact-form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff; /* force labels to white */
+  font-weight: 500;
+}
+
+/* Inputs and textarea */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff; /* white text inside fields */
+}
+
+/* Button */
+.contact-form button {
+  width: 100%;
+  padding: 12px;
+  background: cyan;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: #00a0a0;
+  color: #fff;
+}

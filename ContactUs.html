@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="CSS Files/StylesContactUs.css" />
+    <title>BizAnalytiq Consulting</title>
+  </head>
+  <body>
+    <div class="Header">
+      <img class="LogoTopRight" src="images/Logo1.png" alt="BizAnalytiq Logo" />
+      <div class="ButtonContainer">
+        <div class="ButtonText">
+          <a href="index.html">Home</a>
+          <a href="WhatWeDo.html">What We Do</a>
+          <a href="WhoWeAre.html">Who We Are</a>
+          <a href="Examples.html">Examples Of Our Work</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="HeroSection">
+      <div class="MainContent">
+        <div>
+          <p class="Page1Title fly-in">Contact Us</p>
+          <p class="Page1SubTitle fly-in">For Healthcare Analytics Made Real</p>
+        </div>
+        <div>
+          <p class="Page1Copy fade-in">
+            Whatever data you are trying to interrogate, BizAnalytiq Consulting
+            will move you forward. <br /><br />
+          </p>
+        </div>
+        <form
+          id="contactForm"
+          class="contact-form"
+          action="https://formspree.io/f/mkorqlyn"
+          method="POST"
+        >
+          <div>
+            <label>
+              Your Name:
+              <textarea name="name" required></textarea>
+            </label>
+          </div>
+          <div>
+            <label>
+              Your email:
+              <input type="email" name="email" required />
+            </label>
+            <div>
+              <label>
+                Your contact telephone number (preferably Mobile Phone):
+                <textarea name="telephone number"></textarea>
+              </label>
+            </div>
+          </div>
+          <div>
+            <label>
+              Your message:
+              <textarea name="message" rows="8"></textarea>
+            </label>
+          </div>
+
+          <button type="submit">Send</button>
+        </form>
+        <p
+          id="thankYouMessage"
+          style="display: none; color: cyan; font-weight: bold"
+        >
+          ✅ Thank you! Your message has been sent. <br />
+          We'll get back to you as soon as possible.
+        </p>
+        <div class="FooterContainer">
+          <div>
+            <h2>&copy; BizAnalytiq Consulting (PTY) LTD</h2>
+            <p class="p">This is where the footer information goes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const form = document.getElementById("contactForm");
+      const thankYou = document.getElementById("thankYouMessage");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+        if (response.ok) {
+          form.style.display = "none";
+          thankYou.style.display = "block";
+        }
+      });
+    </script>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.2 },
+      );
+
+      document
+        .querySelectorAll(".scroll-fade-in, .scroll-only-fade")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="CSS Files/StylesWhoWeAre.css" />
+    <title>BizAnalytiq Consulting</title>
+  </head>
+  <body>
+    <div>
+      <img class="LogoTopRight" src="images/Logo1.png" alt="BizAnalytiq Logo" />
+    </div>
+    <div class="ButtonContainer">
+      <div class="ButtonText">
+        <a href="index.html">Home</a>
+        <a href="WhatWeDo.html">What We Do</a>
+        <a href="Examples.html">Examples Of Our Work</a>
+        <a href="ContactUs.html">Contact Us</a>
+      </div>
+    </div>
+
+    <div class="HeroSection">
+      <div class="MainContent">
+        <div>
+          <p class="Page1Title fly-in">Who We Are</p>
+          <p class="Page1SubTitle fly-in">Healthcare Analytics Made Real</p>
+        </div>
+        <div class="Page1TopText fade-in fade-delay-1s">
+          <p>
+            Since 2006 BizAnalytiq consulting has supported healthcare data
+            reporting, data analysis, statistical analysis and predictive
+            modelling in both Business and Science.
+          </p>
+        </div>
+
+        <div class="CardContainer">
+          <div class="Card enlarge-small">
+            <img
+              class="CardImage"
+              src="images/Steven.jpg"
+              alt="Example image"
+            />
+            <p class="Title">Steven Beukes <br /></p>
+            <p class="Qualifications">BPharm MBA</p>
+            <p class="Subtitle">
+              Based in Cape Town, South Africa, Steven has worked in
+              Pharmaceutical Marketing, Medical and Business Intelligence for
+              almost four decades. <br /><br />
+              He has worked for several multinational Pharmaceutical companies
+              such as GlaxoSmithkline and Pfizer. <br /><br />
+              He brings a wealth of analytical experience, a keen talent for
+              asking the questions that really matter and seeing the story
+              hidden in data<br /><br />
+              Steven is higly skilled in Microsoft Excel, MS Access and SQL.
+            </p>
+          </div>
+          <div class="Card enlarge-small">
+            <img class="CardImage" src="images/Craig.png" alt="Example image" />
+            <p class="Title">Craig St John - Ayre <br /></p>
+            <p class="Qualifications">BSc Hons MSc (Microbiology)</p>
+            <p class="Subtitle">
+              Based in Johannesburg, South Africa, Craig has worked in
+              Healthcare for over three decades in Sales, Marketing and Business
+              Intelligence.
+              <br /><br />
+              He has worked for several Pharmaceutical companies including
+              Pfizer, GlaxoSmithkline, AstraZeneca and Adcock Ingram.
+              <br /><br />
+              He brings a wealth of strategic experience and a talent for seeing
+              behind the data.<br /><br />
+              He's also skilled in analytical techniques, statistical analysis,
+              database managemnt and data representation.<br /><br />
+              Craig can program in several languages and built this web site.
+            </p>
+          </div>
+        </div>
+        <div class="CardContainer">
+          <div class="Card enlarge-teensie">
+            <p class="Title">Our Principles <br /></p>
+            <p class="Qualifications">
+              We adhere to the following principles in doing our work:
+            </p>
+            <p class="SubtitleCentre">
+              <br /><br />
+              We always act in the best interests of our client company.
+              <br /><br />
+              We always act discretely, committed to non-disclosure.
+              <br /><br />
+              We act as objectively as possible and are continually aware of
+              bias.
+              <br /><br />
+              We act with honesty.
+              <br /><br />
+              We listen carefully and ask lots of questions.
+              <br /><br />
+              If we don't know, we say so. Then we find out who does know and
+              learn from them.
+              <br /><br />
+              We deliver results to the best of our ability 100% of the time.
+            </p>
+          </div>
+        </div>
+        <div class="FooterContainer">
+          <div>
+            <h2>&copy; BizAnalytiq Consulting (PTY) LTD</h2>
+            <p class="p">This is where the footer information goes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.2 },
+      );
+
+      document
+        .querySelectorAll(".scroll-fade-in, .scroll-only-fade")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
