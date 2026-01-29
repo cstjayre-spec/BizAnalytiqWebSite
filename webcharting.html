@@ -1,0 +1,663 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <link rel="stylesheet" href="CSS Files/stylesWebCharting.css" />
+    <style></style>
+  </head>
+
+  <body>
+    <div class="Header">
+        <img
+          class="LogoTopRight"
+          src="images/LogoPink.png"
+          alt="BizAnalytiq Logo"
+        />
+        <div class="ButtonContainer">
+          <div class="ButtonText">
+            <a href="Examples.html">Back To Examples Of Our Work</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="HeroSection">
+      <div class = "MainContent">
+        <div>
+          <p class="Page1Title">Be Intelligent</p>
+          <p class="Page1SubTitle">Healthcare Analytics Made Real</p>
+    
+        </div>
+        <div>
+          <p class="Page1Copy fade-in">
+            Whatever data you are trying to interrogate, BizAnalytiq Consulting
+            supports your insight and helps you look into the future.
+          </p>
+        </div>
+        <div class="dashboard-row">
+          <div class="chart-card">
+            <div id="BrandChart" style="width: 100%; height: auto"></div>
+          </div>
+          <div class="chart-card">
+            <div id="BrandTerrChart" style="width: 100%; height: auto"></div>
+          </div>
+          
+
+          <div class="chart-card">
+            <div id="gauge1" style="width: 100%; height: auto"></div>
+          </div>
+        </div>
+        <div class="dashboard-row">
+          <div class="chart-card">
+            <div id="chart2" style="width: 100%; height: auto"></div>
+          </div>
+          <div class="chart-card">
+            <div id="piechart" style="width: 100%; height: auto"></div>
+          </div>
+
+          <div class="chart-card">
+            <div id="waterfallchart" style="width: 100%; height: auto"></div>
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Drop-Down Bar Brand Territory Script -->
+    <script>
+      Papa.parse("BarLineBrandData.csv", {
+        download: true,
+        header: true,
+        complete: function (results) {
+          const data = results.data;
+
+          // Collect unique brands
+          const brands = [...new Set(data.map((row) => row.Brand))];
+
+          // Build traces for each brand
+          const tracesByBrand = {};
+          brands.forEach((brand) => {
+            const rows = data.filter((r) => r.Brand === brand);
+
+            const dates = rows.map((r) => r.Date);
+            const actual = rows.map((r) => +r["Actual Sales"]);
+            const budget = rows.map((r) => +r["Budget"]);
+            const target = rows.map((r) => +r["Revised Target"]);
+
+            tracesByBrand[brand] = [
+              {
+                x: dates,
+                y: actual,
+                type: "bar",
+                name: "Actual Sales",
+                marker: {
+                  color: "#5f005f",
+                  line: { color: "rgba(0,0,0,0.2)", width: 2 },
+                },
+              },
+              {
+                x: dates,
+                y: budget,
+                type: "scatter",
+                mode: "lines+markers",
+                name: "Budget",
+                line: { color: "#d75f00", width: 3, shape: "spline" },
+                marker: { size: 8, color: "#d75f00" },
+              },
+              {
+                x: dates,
+                y: target,
+                type: "scatter",
+                mode: "lines+markers",
+                name: "Revised Target",
+                line: { color: "#eeeeee", width: 3, shape: "spline" },
+                marker: { size: 8, color: "#eeeeee" },
+              },
+            ];
+          });
+
+          // Initial brand
+          const initialBrand = brands[0];
+
+          const layout = {
+            title: `Sales vs Budget vs Target — Brand ${initialBrand}`,
+            paper_bgcolor: "transparent",
+            plot_bgcolor: "transparent",
+            font: { color: "#e6e6e6" },
+            barmode: "group",
+            updatemenus: [
+              {
+                buttons: brands.map((brand) => ({
+                  method: "update",
+                  args: [
+                    {
+                      x: [
+                        tracesByBrand[brand][0].x,
+                        tracesByBrand[brand][1].x,
+                        tracesByBrand[brand][2].x,
+                      ],
+                      y: [
+                        tracesByBrand[brand][0].y,
+                        tracesByBrand[brand][1].y,
+                        tracesByBrand[brand][2].y,
+                      ],
+                    },
+                    { title: `Sales vs Budget vs Target — Brand ${brand}` },
+                  ],
+                  label: brand,
+                })),
+                direction: "down",
+                showactive: true,
+                x: 0.6,
+                y: 1.15,
+              },
+            ],
+            annotations: [
+              {
+                text: "Select Brand:",
+                x: 0.0, // position relative to chart width
+                y: 1.15, // same vertical level as dropdown
+                xref: "paper",
+                yref: "paper",
+                showarrow: false,
+                font: { color: "#e6e6e6", size: 14 },
+              },
+            ],
+
+            xaxis: { title: "Date" },
+            yaxis: { title: "Values" },
+          };
+
+          // Render with initial brand
+          Plotly.newPlot("BrandChart", tracesByBrand[initialBrand], layout);
+        },
+      });
+    </script>
+    <script>
+Papa.parse("BarLineBrandTerrData.csv", {
+  download: true,
+  header: true,
+  complete: function (results) {
+    const data = results.data;
+
+    // Unique lists
+    const brands = [...new Set(data.map((r) => r.Brand))];
+    const territories = [...new Set(data.map((r) => r.Territory))];
+
+    // Build nested structure: Brand → Territory → Traces
+    const tracesByBrandTerritory = {};
+
+    brands.forEach((brand) => {
+      tracesByBrandTerritory[brand] = {};
+
+      territories.forEach((territory) => {
+        const rows = data.filter(
+          (r) => r.Brand === brand && r.Territory === territory
+        );
+
+        const dates = rows.map((r) => r.Date);
+        const actual = rows.map((r) => +r["Actual Sales"]);
+        const budget = rows.map((r) => +r["Budget"]);
+        const target = rows.map((r) => +r["Revised Target"]);
+
+        tracesByBrandTerritory[brand][territory] = [
+          {
+            x: dates,
+            y: actual,
+            type: "bar",
+            name: "Actual Sales",
+            marker: {
+              color: "#5f005f",
+              line: { color: "rgba(0,0,0,0.2)", width: 2 },
+            },
+          },
+          {
+            x: dates,
+            y: budget,
+            type: "scatter",
+            mode: "lines+markers",
+            name: "Budget",
+            line: { color: "#d75f00", width: 3, shape: "spline" },
+            marker: { size: 8, color: "#d75f00" },
+          },
+          {
+            x: dates,
+            y: target,
+            type: "scatter",
+            mode: "lines+markers",
+            name: "Revised Target",
+            line: { color: "#eeeeee", width: 3, shape: "spline" },
+            marker: { size: 8, color: "#eeeeee" },
+          },
+        ];
+      });
+    });
+
+    // Initial selections
+    const initialBrand = brands[0];
+    const initialTerritory = territories[0];
+
+    // Layout with TWO dropdowns
+    const layout = {
+      title: `Sales vs Budget vs Target — ${initialBrand}, ${initialTerritory}`,
+      paper_bgcolor: "transparent",
+      plot_bgcolor: "transparent",
+      font: { color: "#e6e6e6" },
+      barmode: "group",
+
+      updatemenus: [
+        // BRAND DROPDOWN
+        {
+          buttons: brands.map((brand) => ({
+            method: "update",
+            args: [
+              {
+                x: tracesByBrandTerritory[brand][initialTerritory].map((t) => t.x),
+                y: tracesByBrandTerritory[brand][initialTerritory].map((t) => t.y),
+              },
+              {
+                title: `Sales vs Budget vs Target — ${brand}, ${initialTerritory}`,
+              },
+            ],
+            label: brand,
+          })),
+          direction: "down",
+          showactive: true,
+          x: 0.4,
+          y: 1.15,
+        },
+
+        // TERRITORY DROPDOWN
+        {
+          buttons: territories.map((territory) => ({
+            method: "update",
+            args: [
+              {
+                x: tracesByBrandTerritory[initialBrand][territory].map((t) => t.x),
+                y: tracesByBrandTerritory[initialBrand][territory].map((t) => t.y),
+              },
+              {
+                title: `Sales vs Budget vs Target — ${initialBrand}, ${territory}`,
+              },
+            ],
+            label: territory,
+          })),
+          direction: "down",
+          showactive: true,
+          x: 1.4,
+          y: 1.15,
+        },
+      ],
+
+      annotations: [
+        {
+          text: "Brand:",
+          x: 0,
+          y: 1.15,
+          xref: "paper",
+          yref: "paper",
+          showarrow: false,
+          font: { color: "#e6e6e6", size: 14 },
+        },
+        {
+          text: "Territory:",
+          x: 1,
+          y: 1.15,
+          xref: "paper",
+          yref: "paper",
+          showarrow: false,
+          font: { color: "#e6e6e6", size: 14 },
+        },
+      ],
+
+      xaxis: { title: "Date" },
+      yaxis: { title: "Values" },
+    };
+
+    // Render initial chart
+    Plotly.newPlot(
+      "BrandTerrChart",
+      tracesByBrandTerritory[initialBrand][initialTerritory],
+      layout
+    );
+  },
+});
+</script>
+    <!-- Surface CHART SCRIPT -->
+    <script>
+      fetch("Surface Data.csv")
+        .then((response) => response.text())
+        .then((csv) => {
+          const rows = csv
+            .replace(/^\uFEFF/, "")
+            .replace(/\r/g, "")
+            .trim()
+            .split("\n")
+            .map((r) =>
+              r.split(",").map((c) => c.trim().replace(/[^\d.-]/g, "")),
+            );
+
+          const xs = [...new Set(rows.map((r) => r[0]))];
+          const ys = [...new Set(rows.map((r) => r[1]))];
+
+          const z = ys.map((y) =>
+            xs.map((x) => {
+              const row = rows.find((r) => r[0] === x && r[1] === y);
+              return row ? row[2] : null;
+            }),
+          );
+
+          const data = [
+            {
+              type: "surface",
+              x: xs,
+              y: ys,
+              z: z,
+              colorscale: "Electric",
+            },
+          ];
+
+          const layout = {
+            title: {
+              text: "3D Surface Chart (Drag to Rotate)",
+              font: { color: "#e6e6e6" },
+            },
+            paper_bgcolor: "transparent",
+            scene: {
+              xaxis: {
+                title: "X",
+                backgroundcolor: "#1a1d23",
+                gridcolor: "#2a2e36",
+                color: "#e6e6e6",
+              },
+              yaxis: {
+                title: "Y",
+                backgroundcolor: "#1a1d23",
+                gridcolor: "#2a2e36",
+                color: "#e6e6e6",
+              },
+              zaxis: {
+                title: "Z",
+                backgroundcolor: "#1a1d23",
+                gridcolor: "#2a2e36",
+                color: "#e6e6e6",
+              },
+            },
+          };
+
+          Plotly.newPlot("chart2", data, layout);
+        });
+    </script>
+
+    <!-- PIE SCRIPT -->
+    <script>
+      fetch("PieData.csv")
+        .then((r) => r.text())
+        .then((csv) => {
+          // Remove BOM and trim
+          csv = csv.replace(/^\uFEFF/, "").trim();
+
+          // Split rows safely across GitHub Pages line endings
+          const rows = csv
+            .split(/\r?\n/)
+            .map((r) => r.split(",").map((c) => c.trim()));
+
+          // Header row
+          const header = rows.shift();
+
+          // Column indexes
+          const idxLabel = header.indexOf("Category");
+          const idxValue = header.indexOf("Value");
+
+          // Numeric cleaner
+          const cleanNum = (v) =>
+            Number(
+              String(v || "")
+                .trim()
+                .replace(/[^\d.-]/g, ""),
+            );
+
+          // Extract data
+          const labels = rows.map((r) => r[idxLabel]);
+          const values = rows.map((r) => cleanNum(r[idxValue]));
+
+          // Plotly pie chart
+          const pieTrace = {
+            labels: labels,
+            values: values,
+            type: "pie",
+            textinfo: "label+percent",
+            insidetextorientation: "radial",
+            marker: {
+              colors: [
+                "#d7005f",
+                "#d70887",
+                "#5f005f",
+                "#d75faf",
+                "#d75f87",
+                "#d75f5f",
+                "#d78700",
+                "#d75f00",
+              ],
+            },
+          };
+
+          const layout = {
+            title: {
+              text: "Pie Chart",
+              font: { color: "#e6e6e6" },
+            },
+            paper_bgcolor: "transparent",
+            plot_bgcolor: "transparent",
+            font: { color: "#e6e6e6" },
+          };
+
+          Plotly.newPlot("piechart", [pieTrace], layout);
+        });
+    </script>
+    <!-- GAUGE SCRIPT -->
+    <script>
+      const gaugeData = [
+        {
+          type: "indicator",
+          mode: "gauge+number",
+          value: 72,
+          title: { text: "Performance vs Budget", font: { color: "#e6e6e6" } },
+          gauge: {
+            axis: { range: [0, 100], tickcolor: "#e6e6e6" },
+            bar: { color: "#5f005f" },
+            bgcolor: "#1a1d23",
+            borderwidth: 2,
+            bordercolor: "#2a2e36",
+            steps: [
+              { range: [0, 50], color: "#444444" },
+              { range: [50, 80], color: "#d75f00" },
+              { range: [80, 100], color: "#e24a4a" },
+            ],
+            threshold: {
+              line: { color: "#ff5555", width: 4 },
+              thickness: 0.75,
+              value: 85,
+            },
+          },
+        },
+      ];
+
+      const gaugeLayout = {
+        paper_bgcolor: "transparent",
+        font: { color: "#e6e6e6" },
+        margin: { t: 40, r: 20, l: 20, b: 20 },
+      };
+
+      Plotly.newPlot("gauge1", gaugeData, gaugeLayout);
+    </script>
+
+    <!-- WATERFALL SCRIPT -->
+    <script>
+      Papa.parse("WaterfallData.csv", {
+        download: true,
+        header: false,
+        complete: function (results) {
+          var labels = [];
+          var values = [];
+
+          results.data.forEach(function (row) {
+            if (row.length >= 2) {
+              labels.push(row[0]);
+              values.push(parseFloat(row[1]));
+            }
+          });
+
+          // Define measures: first absolute, last total, middle relative
+          var measure = labels.map((label, i) => {
+            if (i === 0) return "absolute";
+            if (i === labels.length - 1) return "total";
+            return "relative";
+          });
+
+          var data = [
+            {
+              type: "waterfall",
+              x: labels,
+              y: values,
+              text: values,
+              textposition: "outside",
+              measure: measure,
+              connector: { line: { color: "darkgrey" } },
+              increasing: { marker: { color: "limegreen" } },
+              decreasing: { marker: { color: "crimson" } },
+              totals: { marker: { color: "#5f005f" } },
+            },
+          ];
+
+          var layout = {
+            title: {
+              text: "Brand Contributions from 2024 to 2025",
+              font: { color: "#e0e0e0" },
+            },
+            paper_bgcolor: "transparent",
+            plot_bgcolor: "transparent",
+            font: { color: "#e0e0e0" },
+          };
+
+          Plotly.newPlot("waterfallchart", data, layout);
+        },
+      });
+    </script>
+
+    <!-- Drop-Down Bar SCRIPT -->
+    <script>
+      Papa.parse("BarLineBrandData.csv", {
+        download: true,
+        header: true,
+        complete: function (results) {
+          const data = results.data;
+
+          // Collect unique brands
+          const brands = [...new Set(data.map((row) => row.Brand))];
+
+          // Build traces for each brand
+          const tracesByBrand = {};
+          brands.forEach((brand) => {
+            const rows = data.filter((r) => r.Brand === brand);
+
+            const dates = rows.map((r) => r.Date);
+            const actual = rows.map((r) => +r["Actual Sales"]);
+            const budget = rows.map((r) => +r["Budget"]);
+            const target = rows.map((r) => +r["Revised Target"]);
+
+            tracesByBrand[brand] = [
+              {
+                x: dates,
+                y: actual,
+                type: "bar",
+                name: "Actual Sales",
+                marker: {
+                  color: "#5f005f",
+                  line: { color: "rgba(0,0,0,0.2)", width: 2 },
+                },
+              },
+              {
+                x: dates,
+                y: budget,
+                type: "scatter",
+                mode: "lines+markers",
+                name: "Budget",
+                line: { color: "#d75f00", width: 3, shape: "spline" },
+                marker: { size: 8, color: "#d75f00" },
+              },
+              {
+                x: dates,
+                y: target,
+                type: "scatter",
+                mode: "lines+markers",
+                name: "Revised Target",
+                line: { color: "#eeeeee", width: 3, shape: "spline" },
+                marker: { size: 8, color: "#eeeeee" },
+              },
+            ];
+          });
+
+          // Initial brand
+          const initialBrand = brands[0];
+
+          const layout = {
+            title: `Sales vs Budget vs Target — Brand ${initialBrand}`,
+            paper_bgcolor: "transparent",
+            plot_bgcolor: "transparent",
+            font: { color: "#e6e6e6" },
+            barmode: "group",
+            updatemenus: [
+              {
+                buttons: brands.map((brand) => ({
+                  method: "update",
+                  args: [
+                    {
+                      x: [
+                        tracesByBrand[brand][0].x,
+                        tracesByBrand[brand][1].x,
+                        tracesByBrand[brand][2].x,
+                      ],
+                      y: [
+                        tracesByBrand[brand][0].y,
+                        tracesByBrand[brand][1].y,
+                        tracesByBrand[brand][2].y,
+                      ],
+                    },
+                    { title: `Sales vs Budget vs Target — Brand ${brand}` },
+                  ],
+                  label: brand,
+                })),
+                direction: "down",
+                showactive: true,
+                x: 0.6,
+                y: 1.15,
+              },
+            ],
+            annotations: [
+              {
+                text: "Select Brand:",
+                x: 0.0, // position relative to chart width
+                y: 1.15, // same vertical level as dropdown
+                xref: "paper",
+                yref: "paper",
+                showarrow: false,
+                font: { color: "#e6e6e6", size: 14 },
+              },
+            ],
+
+            xaxis: { title: "Date" },
+            yaxis: { title: "Values" },
+          };
+
+          // Render with initial brand
+          Plotly.newPlot("BrandChart", tracesByBrand[initialBrand], layout);
+        },
+      });
+    </script>
+
+    <script src="app.js"></script>
+  </body>
+</html>
